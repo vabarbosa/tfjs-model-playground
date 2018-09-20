@@ -29,4 +29,4 @@ where
 
 ### Assets
 
-- `color-map.js` - [colormap](https://github.com/IBM/MAX-Image-Segmenter/blob/master/core/utils.py#L7) for visualizing segmentation results
+- `color-map.json` - [colormap](https://github.com/IBM/MAX-Image-Segmenter/blob/master/core/utils.py#L7) for visualizing segmentation results
