@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>image-segmenter</title>
+  </head>
+  <body>
+    <div style="margin: 20px;">
+      <h1>image-segmenter</h1>
+      <div style="padding: 10px;">
+        <button id="modelload">load model</button>
+        <input id="modelimage" type="file" name="filename" accept="image/gif, image/jpeg, image/png" onchange="loadImage(this);">
+        <button id="modelrun">run model</button>
+      </div>
+      
+      <div style="padding: 10px;">
+        <div id="capimg" style="position:relative;display:inline-block;min-width:600px;vertical-align:top;">
+          <canvas id="canvasimage" style="z-index:1; position:absolute; left:0px; top:0px;"></canvas>
+          <canvas id="canvassegments" style="z-index:2; position:absolute; left:0px; top:0px;"></canvas>
+        </div>
+        <div id="message" style="position:relative;display:inline-block;"></div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.0"></script>
+    <script src="image-segmenter.js"></script>
+  </body>
+</html>
