@@ -9,7 +9,7 @@ This directory contains the steps for and the output of converting the model to 
 
 #### Source
 
-The [pre-trained model](http://max-assets.s3-api.us-geo.objectstorage.softlayer.net/deeplab/deeplabv3_mnv2_pascal_trainval_2018_01_29.tar.gz) used is from the [MAX Image Segmenter](https://github.com/IBM/MAX-Image-Segmenter).
+The [pre-trained model](http://max-assets.s3-api.us-geo.objectstorage.softlayer.net/deeplab/deeplabv3_mnv2_pascal_trainval_2018_01_29.tar.gz) used is taken from the [MAX Image Segmenter](https://github.com/IBM/MAX-Image-Segmenter).
 
 To get familiar with the MAX Image Segmenter model follow its instructions to deploy it to Docker or Kubernetes.
 

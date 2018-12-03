@@ -6,9 +6,9 @@
     <div style="margin: 20px;">
       <h1>image-segmenter</h1>
       <div style="padding: 10px;">
-        <button id="modelload">load model</button>
-        <input id="modelimage" type="file" name="filename" accept="image/gif, image/jpeg, image/png" onchange="loadImage(this);">
-        <button id="modelrun">run model</button>
+        <button id="modelload" onclick="loadModel();">load model</button>
+        <input id="modelimage" type="file" name="filename" accept="image/gif, image/jpeg, image/png" onchange="loadImage(this);" disabled>
+        <button id="modelrun" onclick="runModel();" disabled>run model</button>
       </div>
       
       <div style="padding: 10px;">
@@ -20,8 +20,7 @@
       </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="image-segmenter.js"></script>
   </body>
 </html>

@@ -1,3 +1,4 @@
+/* global tf, Image, FileReader, ImageData, fetch */
 
 const modelUrl = '/model/tensorflowjs_model.pb'
 const weightsUrl = '/model/weights_manifest.json'
@@ -10,35 +11,45 @@ let theModel
 let imageElement
 let colorMap
 
-let loadModel = async function () {
-  console.log('load model started')
-  $('button, input').attr('disabled', true)
-  $('#message').append('<div>loading model...</div>')
+/**
+ * load the TensorFlow.js model
+ */
+async function loadModel () {
+  disableElements()
+  message('loading model...')
+
   let start = (new Date()).getTime()
 
+  // https://js.tensorflow.org/api/latest/#loadFrozenModel
   theModel = await tf.loadFrozenModel(modelUrl, weightsUrl)
 
   let end = (new Date()).getTime()
-  $('#message').append(`<div>model loaded in ${(end - start) / 1000} secs</div>`)
-  $('button, input').attr('disabled', null)
-  console.log(`load model completed: ${theModel}`)
+
+  message(`model loaded in ${(end - start) / 1000} secs`, true)
+  enableElements()
 }
 
-let loadImage = function (input) {
+/**
+ * handle image upload
+ *
+ * @param {DOM Node} input - the image file upload element
+ */
+function loadImage (input) {
   if (input.files && input.files[0]) {
-    console.log('loadImage: started')
-    $('button, input').attr('disabled', true)
-    $('#message').append('<div>resizing image...</div>')
+    disableElements()
+    message('resizing image...')
 
-    var reader = new FileReader()
+    let reader = new FileReader()
 
     reader.onload = function (e) {
       let src = e.target.result
-      console.log('loadImage (dataURL):', src)
 
-      imageElement = new Image()
       document.getElementById('canvasimage').getContext('2d').clearRect(0, 0, targetSize.w, targetSize.h)
       document.getElementById('canvassegments').getContext('2d').clearRect(0, 0, targetSize.w, targetSize.h)
+
+      imageElement = new Image()
+      imageElement.src = src
+
       imageElement.onload = function () {
         let resizeRatio = imageSize / Math.max(imageElement.width, imageElement.height)
         targetSize.w = Math.round(resizeRatio * imageElement.width)
@@ -58,76 +69,77 @@ let loadImage = function (input) {
           .getContext('2d')
           .drawImage(imageElement, 0, 0, targetSize.w, targetSize.h)
 
-        $('#message').append(`<div>resized from ${origSize.w} x ${origSize.h} to ${targetSize.w} x ${targetSize.h}</div>`)
-        $('button, input').attr('disabled', null)
-        console.log('loadImage: completed')
+        message(`resized from ${origSize.w} x ${origSize.h} to ${targetSize.w} x ${targetSize.h}`)
+        enableElements()
       }
-      
-      imageElement.src = src
     }
 
     reader.readAsDataURL(input.files[0])
   } else {
-    $('#message').append('<div>no image uploaded</div>')
+    message('no image uploaded', true)
   }
 }
 
-let runModel = async function () {
+/**
+ * run the model and get a prediction
+ */
+async function runModel () {
   if (imageElement) {
-    console.log('runModel started')
-    $('button, input').attr('disabled', true)
+    disableElements()
+    message('running inference...')
 
     let img = preprocessInput(imageElement)
-
-    $('#message').append('<div>running inference...</div>')
-    let start = (new Date()).getTime()
     console.log('model.predict (input):', img.dataSync())
 
-    const output = theModel.predict(img)
-    console.log('model.predict (output):', output)
+    let start = (new Date()).getTime()
 
-    await processOutput(output)
+    // https://js.tensorflow.org/api/latest/#tf.Model.predict
+    const output = theModel.predict(img)
 
     let end = (new Date()).getTime()
-    $('#message').append(`<div>inference ran in ${(end - start) / 1000} secs</div>`)
-    $('button, input').attr('disabled', null)
-    console.log('runModel completed')
+
+    console.log('model.predict (output):', output.dataSync())
+    await processOutput(output)
+
+    message(`inference ran in ${(end - start) / 1000} secs`, true)
+    enableElements()
   } else {
-    $('#message').append('<div>no image provided</div>')
+    message('no image available', true)
   }
 }
 
-let loadColorMap = async function () {
-  let response = await fetch(colorMapUrl)
-  colorMap = await response.json()
-
-  if (colorMap && colorMap.hasOwnProperty('colorMap')) {
-    colorMap = colorMap['colorMap']
-  } else {
-    console.warn('failed to fetch colormap')
-    colorMap = []
-  }
-}
-
-let preprocessInput = function (imageInput) {
-  // get tensor from image
+/**
+ * convert image to Tensor input required by the model
+ *
+ * @param {HTMLImageElement} imageInput - the image element
+ */
+function preprocessInput (imageInput) {
+  console.log('preprocessInput started')
+  // create tensor from image pixels
   let theImage = tf.fromPixels(imageInput)
 
-  theImage.print()
-  console.log('preprocessInput: ImageTensor shape = ', theImage.shape)
+  // theImage.print()
 
+  // https://js.tensorflow.org/api/latest/#expandDims
   let preprocessed = theImage.expandDims()
 
-  console.log('preprocessInput:', preprocessed)
+  console.log('preprocessInput completed:', preprocessed)
   return preprocessed
 }
 
-let processOutput = async function (output) {
+/**
+ * convert model Tensor output to image data for previewing
+ *
+ * @param {Tensor} output - the model output
+ */
+async function processOutput (output) {
+  console.log('processOutput started')
+
   let segMap = Array.from(output.dataSync())
   if (!colorMap) {
     await loadColorMap()
   }
-  
+
   let segMapColor = segMap.map(seg => colorMap[seg])
 
   let canvas = document.getElementById('canvassegments')
@@ -140,22 +152,65 @@ let processOutput = async function (output) {
     data.push(segMapColor[i][0]) // red
     data.push(segMapColor[i][1]) // green
     data.push(segMapColor[i][2]) // blue
-    data.push(175)            // alpha
+    data.push(175) // alpha
   }
 
   let imageData = new ImageData(targetSize.w, targetSize.h)
   imageData.data.set(data)
   ctx.putImageData(imageData, 0, 0)
 
-  console.log('processOutput:', imageData)
+  console.log('processOutput completed:', imageData)
 }
 
-$('#modelload').on('click', loadModel)
+async function loadColorMap () {
+  let response = await fetch(colorMapUrl)
+  colorMap = await response.json()
 
-$('#modelimage')
-  .val(null)
-  .attr('disabled', true)
+  if (colorMap && colorMap.hasOwnProperty('colorMap')) {
+    colorMap = colorMap['colorMap']
+  } else {
+    console.warn('failed to fetch colormap')
+    colorMap = []
+  }
+}
 
-$('#modelrun')
-  .on('click', runModel)
-  .attr('disabled', true)
+function disableElements () {
+  const buttons = document.getElementsByTagName('button')
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].setAttribute('disabled', true)
+  }
+
+  const inputs = document.getElementsByTagName('input')
+  for (var j = 0; j < inputs.length; j++) {
+    inputs[j].setAttribute('disabled', true)
+  }
+}
+
+function enableElements () {
+  const buttons = document.getElementsByTagName('button')
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].removeAttribute('disabled')
+  }
+
+  const inputs = document.getElementsByTagName('input')
+  for (var j = 0; j < inputs.length; j++) {
+    inputs[j].removeAttribute('disabled')
+  }
+}
+
+function message (msg, highlight) {
+  let mark = null
+  if (highlight) {
+    mark = document.createElement('mark')
+    mark.innerText = msg
+  }
+
+  const node = document.createElement('div')
+  if (mark) {
+    node.appendChild(mark)
+  } else {
+    node.innerText = msg
+  }
+
+  document.getElementById('message').appendChild(node)
+}
