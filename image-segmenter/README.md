@@ -9,11 +9,11 @@ This directory contains the steps for and the output of converting the model to 
 
 #### Source
 
-The [pre-trained model](http://max-assets.s3-api.us-geo.objectstorage.softlayer.net/deeplab/deeplabv3_mnv2_pascal_trainval_2018_01_29.tar.gz) used is taken from the [MAX Image Segmenter](https://github.com/IBM/MAX-Image-Segmenter).
+The [pre-trained model](http://max-assets.s3-api.us-geo.objectstorage.softlayer.net/deeplab/deeplabv3_mnv2_pascal_trainval_2018_01_29.tar.gz) used is taken from the [Model Asset Exchange](https://developer.ibm.com/code/exchanges/models) (MAX).
 
-To get familiar with the MAX Image Segmenter model follow its instructions to deploy it to Docker or Kubernetes.
+To try out the [MAX Image Segmenter](https://github.com/IBM/MAX-Image-Segmenter) follow its instructions to deploy it to Docker or Kubernetes.
 
-Alternatively, the MAX Image Segmenter model can be run in a Jupyter environment by launching the notebook provided in this directory.
+Alternatively, the MAX Image Segmenter model can be run in a Jupyter environment by launching the notebook (`max-image-segmenter.ipynb`) provided in this repository.
 
 #### Output
 
@@ -26,7 +26,7 @@ To run the converted model in a browser follow the instructions in the [`/image-
 
 ## Assets
 
-Optional assets included which may be useful when running the TensorFlow.js model
+Optional assets included which may be useful when making use of the TensorFlow.js model
 
 - `color-map.json` - [colormap](https://github.com/IBM/MAX-Image-Segmenter/blob/master/core/utils.py#L7) for visualizing segmentation results
 
@@ -49,6 +49,5 @@ tensorflowjs_converter \
 
 where  
 
-- **{frozen\_graph\_path}** is the path to the frozen model in the extracted model file
+- **{frozen\_graph\_path}** is the path to the extracted frozen model
 - **{web\_asset\_dir}** is the directory to save the converted model files
-
