@@ -26,7 +26,7 @@ To run the converted model in a browser follow the instructions in the [`/image-
 
 ## Assets
 
-Optional assets included which may be useful when making use of the TensorFlow.js model
+Optional assets included which may be useful when using the TensorFlow.js model
 
 - `color-map.json` - [colormap](https://github.com/IBM/MAX-Image-Segmenter/blob/master/core/utils.py#L7) for visualizing segmentation results
 
