@@ -15,17 +15,13 @@ To run the demo:
     >   1. Start the Web Server
     >   1. Make note of the **Web Server URL(s)** (e.g., http://127.0.0.1:8887)
     >   
-    > - using the **[SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html)** module (available in Python 2.x)
+    > - using the Python **HTTP server** module
     >   
     >   1. From a terminal shell, go to the `image-segmenter` directory in the cloned repo
-    >   1. Enter the command: `python -m SimpleHTTPServer 8080` (or whatever port desired)
-    >   1. Once started, the Web Server URL should be http://127.0.0.1:8080 (or whatever port used)
-    >   
-    > - using the **[http.server](https://docs.python.org/3/library/http.server.html)** module (available in Python 3.x)
-    >   
-    >   1. From a terminal shell, go to the `image-segmenter` directory in the cloned repo
-    >   1. Enter the command: `python -m http.server 8080` (or whatever port desired)
-    >   1. Once started, the Web Server URL should be http://127.0.0.1:8080 (or whatever port used)
+    >   1. Depending on your Python version, enter one of the following commands:
+    >       - Python 2.x: `python -m SimpleHTTPServer 8080`
+    >       - Python 3.x: `python -m http.server 8080`
+    >   1. Once started, the Web Server URL should be http://127.0.0.1:8080
     >   
 
 1. From the browser, access `demo/image-segmenter.html` via the Web Server's URL (e.g., http://127.0.0.1:8080/demo/image-segmenter.html)
