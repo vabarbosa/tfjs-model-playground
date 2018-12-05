@@ -14,7 +14,7 @@ To run the demo:
     >  1. From the Web Server, click **CHOOSE FOLDER** and browse to the `image-segmenter` directory in the cloned repo
     >  1. Start the Web Server
 
-1. From the browser, access `image-segmenter.html` via the web server's URL
+1. From the browser, access `demo/image-segmenter.html` via the web server's URL
 
     ![screenshot](image-segmenter-screenshot.png)
 
