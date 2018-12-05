@@ -33,7 +33,7 @@ Optional assets that may be useful when using the TensorFlow.js model
 
 ## DIY
 
-The following steps were taking to convert the MAX Image Segmenter model to web friendly format:
+The following steps were taken to convert the MAX Image Segmenter model to the web friendly format:
 
 1. Install [`tensorflowjs`]() Python module
 1. Download and extract the [pre-trained model](http://max-assets.s3-api.us-geo.objectstorage.softlayer.net/deeplab/deeplabv3_mnv2_pascal_trainval_2018_01_29.tar.gz)  
