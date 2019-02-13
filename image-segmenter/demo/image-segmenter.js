@@ -116,12 +116,10 @@ async function runModel () {
 function preprocessInput (imageInput) {
   console.log('preprocessInput started')
   // create tensor from image pixels
-  let theImage = tf.fromPixels(imageInput)
-
-  // theImage.print()
+  let inputTensor = tf.browser.fromPixels(imageInput)
 
   // https://js.tensorflow.org/api/latest/#expandDims
-  let preprocessed = theImage.expandDims()
+  let preprocessed = inputTensor.expandDims()
 
   console.log('preprocessInput completed:', preprocessed)
   return preprocessed

@@ -1,5 +1,6 @@
 
 .DS_Store
+.vscode
 
 image-caption-generator
 review-text-generator
