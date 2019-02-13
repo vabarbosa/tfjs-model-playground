@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>human-pose-estimator</title>
+  </head>
+  <body>
+    <div style="margin: 20px;">
+      <h1>human-pose-estimator</h1>
+
+      <div style="padding: 10px;">
+        <button id="modelload" onclick="loadModel();">load model</button>
+        <input id="imageupload" type="file" name="filename" accept="image/gif, image/jpeg, image/png" onchange="loadImage(this);" disabled>
+        <button id="modelrun" onclick="runModel();" disabled>run model</button>
+      </div>
+
+      <div style="padding: 10px;">
+        <div style="position:relative;display:inline-block;min-width:600px;vertical-align:top;">
+          <canvas id="canvasimage" style="z-index:2; position:absolute; left:0px; top:0px;"></canvas>
+          <canvas id="canvasposes" style="z-index:3; position:absolute; left:0px; top:0px;"></canvas>
+        </div>
+        <div id="message" style="position:relative;display:inline-block;"></div>
+      </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="pose-detector.js"></script>
+    <script src="human-pose-estimator.js"></script>
+  </body>
+</html>
