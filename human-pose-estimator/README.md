@@ -17,11 +17,11 @@ Alternatively, the MAX Human Pose Estimator model can be run in a Jupyter enviro
 
 #### Output
 
-The web friendly model produced by running `tensorflowjs_converter` can be found in the [`/human-pose-estimator/model`](https://github.com/vabarbosa/tfjs-sandbox/tree/master/human-pose-estimator/model) directory.
+The web friendly model produced by running `tensorflowjs_converter` can be found in the [`/human-pose-estimator/model`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/human-pose-estimator/model) directory.
 
 > **Note**: _The Jupyter notebook also contains the code used to convert the model._
 
-To run the converted model in a browser follow the instructions in the [`/human-pose-estimator/demo`](https://github.com/vabarbosa/tfjs-sandbox/tree/master/human-pose-estimator/demo) directory.
+To run the converted model in a browser follow the instructions in the [`/human-pose-estimator/demo`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/human-pose-estimator/demo) directory.
 
 
 ## Assets
@@ -35,7 +35,7 @@ Optional assets that may be useful when using the TensorFlow.js model
 
 The following steps were taken to convert the MAX Human Pose Estimator model to the web friendly format:
 
-1. Install [`tensorflowjs`]() Python module
+1. Install [`tensorflowjs`](https://pypi.org/project/tensorflowjs/) Python module
 1. Download and extract the [pre-trained model](http://max-assets.s3-api.us-geo.objectstorage.softlayer.net/human-pose-estimator/1.0/assets.tar.gz)  
 1. From a terminal, run the following command:  
 
