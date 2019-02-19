@@ -17,11 +17,11 @@ Alternatively, the MAX Image Segmenter model can be run in a Jupyter environment
 
 #### Output
 
-The web friendly model produced by running `tensorflowjs_converter` can be found in the [`/image-segmenter/model`](https://github.com/vabarbosa/tfjs-sandbox/tree/master/image-segmenter/model) directory.
+The web friendly model produced by running `tensorflowjs_converter` can be found in the [`/image-segmenter/model`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/image-segmenter/model) directory.
 
 > **Note**: _The Jupyter notebook also contains the code used to convert the model._
 
-To run the converted model in a browser follow the instructions in the [`/image-segmenter/demo`](https://github.com/vabarbosa/tfjs-sandbox/tree/master/image-segmenter/demo) directory.
+To run the converted model in a browser follow the instructions in the [`/image-segmenter/demo`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/image-segmenter/demo) directory.
 
 
 ## Assets
