@@ -1,4 +1,4 @@
-# tfjs-sandbox
+# tfjs-model-playground
 
 Pre-trained models that have been converted to the web friendly format supported by TensorFlow.js.
 
