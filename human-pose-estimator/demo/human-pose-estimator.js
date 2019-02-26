@@ -4,7 +4,7 @@ const MODELURL = '/model/tensorflowjs_model.pb'
 const WEIGHTSURL = '/model/weights_manifest.json'
 const COCO = '/assets/coco-common.json'
 
-const imageSize = 512
+const imageSize = 432
 
 let targetSize = { w: imageSize, h: imageSize }
 let openPoseModel
@@ -142,10 +142,6 @@ async function processOutput (output) {
   let poses = estimatePoses(output, targetSize.w, targetSize.h, cocoUtil)
 
   for (var i = 0; i < poses.length; i++) {
-    poses[i].bodyParts.forEach(p => {
-      let color = `rgb(${cocoUtil.cocoColors[p.partId]})`
-      drawPoint(canvasCtx, p.x, p.y, color)
-    })
     poses[i].poseLines.forEach((l, j) => {
       let color = `rgb(${cocoUtil.cocoColors[j].join()})`
       drawLine(canvasCtx, ...l, color)
@@ -153,21 +149,6 @@ async function processOutput (output) {
   }
 
   console.log('processOutput completed:', poses)
-}
-
-/**
- * draw point on given canvas
- *
- * @param {CanvasRenderingContext2D} canvasCtx - the canvas rendering context to draw point
- * @param {Integer} x - the horizontal value of point
- * @param {Integer} y - the vertical value of point
- * @param {String} c - the color value for point
- */
-function drawPoint (canvasCtx, x, y, c = 'black') {
-  canvasCtx.beginPath()
-  canvasCtx.arc(x, y, 4, 0, 2 * Math.PI)
-  canvasCtx.fillStyle = c
-  canvasCtx.fill()
 }
 
 /**

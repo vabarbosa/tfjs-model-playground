@@ -13,14 +13,13 @@ const HeatMapCount = 19
 const PafMapCount = 38
 const MaxPairCount = 17
 
-let NMSWindowSize = 5
-let NMSThreshold = 0.01
-let LocalPAFThreshold = 0.125
-let PartScoreThreshold = 0.1
-let PAFCountThreshold = 5
+let NMSWindowSize = 6
+let NMSThreshold = 0.001
+let LocalPAFThreshold = 0.141
+let PartScoreThreshold = 0.247
+let PAFCountThreshold = 4
 
 const PartCountThreshold = 4
-
 const DIMFACTOR = 8
 
 let cocoPairs = []
