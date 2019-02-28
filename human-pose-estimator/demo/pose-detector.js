@@ -26,7 +26,7 @@ let cocoPairs = []
 let cocoPairsNetwork = []
 let cocoParts = []
 
-const estimatePoses = function (prediction, width, height, cocoUtil) {
+const estimatePoses = function (prediction, cocoUtil) {
   cocoPairs = cocoUtil.cocoPairs
   cocoPairsNetwork = cocoUtil.cocoPairsNetwork
   cocoParts = cocoUtil.cocoParts

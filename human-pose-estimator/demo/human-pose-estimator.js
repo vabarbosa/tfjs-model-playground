@@ -139,7 +139,7 @@ async function processOutput (output) {
   canvas.width = targetSize.w
   canvas.height = targetSize.w
 
-  let poses = estimatePoses(output, targetSize.w, targetSize.h, cocoUtil)
+  let poses = estimatePoses(output, cocoUtil)
 
   for (var i = 0; i < poses.length; i++) {
     poses[i].poseLines.forEach((l, j) => {
