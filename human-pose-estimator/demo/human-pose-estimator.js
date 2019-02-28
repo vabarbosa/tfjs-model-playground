@@ -1,7 +1,7 @@
 /* global tf, fetch, estimatePoses, Image */
 
 const MODELURL = '/model/tensorflowjs_model.pb'
-const WEIGHTSURL = '/model/weights_manifest.json'
+// const WEIGHTSURL = '/model/weights_manifest.json'
 const COCO = '/assets/coco-common.json'
 
 const imageSize = 432
@@ -20,8 +20,8 @@ async function loadModel () {
 
   let start = (new Date()).getTime()
 
-  // https://js.tensorflow.org/api/latest/#loadFrozenModel
-  openPoseModel = await tf.loadFrozenModel(MODELURL, WEIGHTSURL)
+  // https://js.tensorflow.org/api/latest/#loadGraphModel
+  openPoseModel = await tf.loadGraphModel(MODELURL)
 
   let end = (new Date()).getTime()
 
