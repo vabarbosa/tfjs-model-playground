@@ -27,4 +27,4 @@ To run the demo:
 
 1. From the browser, access `demo/review-text-generator.html` via the Web Server's URL (e.g., http://127.0.0.1:8080/demo/review-text-generator.html)
 
-    ![screenshot](review-text-generator-screenshot.png)
+    ![screenshot](review-text-generator.png)

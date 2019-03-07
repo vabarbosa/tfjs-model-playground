@@ -19,6 +19,9 @@ Alternatively, the MAX Review Text Generator model can be run in a Jupyter envir
 
 The web friendly model produced by running `tensorflowjs_converter` can be found in the [`/review-text-generator/model`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/review-text-generator/model) directory.
 
+- `/v0`: contains model converted from a version prior to 1.0 (of TensorFlow.js and `tensorflowjs_converter`)
+- `/v1`: contains model converted from version 1.0 (of TensorFlow.js and `tensorflowjs_converter`)
+
 > **Note**: _The Jupyter notebook also contains the code used to convert to model._
 
 To run the converted model in a browser follow the instructions in the [`/review-text-generator/demo`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/review-text-generator/demo) directory.

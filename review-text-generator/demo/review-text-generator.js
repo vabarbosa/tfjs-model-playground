@@ -1,6 +1,10 @@
 /* global tf, fetch */
 
-const modelUrl = '/model/model.json'
+// tensorflow.js 0.x.x
+const MODELv0 = '/model/v0/model.json'
+// tensorflow.js 1.0.0
+const MODELv1 = '/model/v1/model.json'
+
 const charsArrayUrl = '/assets/chars-array.json'
 
 const seedTextLength = 256
@@ -8,8 +12,10 @@ const seedTextPadding = ' '
 const temperature = 0.6
 const numCharsGen = 50
 
-let theModel
+let model
 let charsArray
+
+let isV0 = false
 
 /**
  * load the TensorFlow.js model
@@ -17,12 +23,16 @@ let charsArray
 async function loadModel () {
   disableElements()
   message('loading model...')
-  message('this may take awhile')
 
   let start = (new Date()).getTime()
 
-  // https://js.tensorflow.org/api/latest/#loadModel
-  theModel = await tf.loadModel(modelUrl)
+  if (isV0) {
+    // https://js.tensorflow.org/api/0.15.1/#loadModel
+    model = await tf.loadModel(MODELv0)
+  } else {
+    // https://js.tensorflow.org/api/1.0.0/#loadLayersModel
+    model = await tf.loadLayersModel(MODELv1)
+  }
 
   let end = (new Date()).getTime()
 
@@ -59,7 +69,7 @@ async function runModel () {
       console.log(`model.predict (input, ${i}):`, txt)
 
       // https://js.tensorflow.org/api/latest/#tf.Model.predict
-      let pred = theModel.predict(txt)
+      let pred = model.predict(txt)
 
       let nextIndex = samplePrediction(pred)
       let nextChar = charsArray[nextIndex]
@@ -190,4 +200,16 @@ function message (msg, highlight) {
   }
 
   document.getElementById('message').appendChild(node)
+}
+
+function init () {
+  message(`tfjs version: ${tf.version.tfjs}`, true)
+  isV0 = tf.version.tfjs.charAt(0) === '0'
+}
+
+// ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init)
+} else {
+  setTimeout(init, 500)
 }
