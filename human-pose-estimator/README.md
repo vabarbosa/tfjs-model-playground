@@ -19,8 +19,8 @@ Alternatively, the MAX Human Pose Estimator model can be run in a Jupyter enviro
 
 The web friendly model produced by running `tensorflowjs_converter` can be found in the [`/human-pose-estimator/model`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/human-pose-estimator/model) directory.
 
-- `/pb`: contains model converted from a version prior to 1.0 (of TensorFlow.js and `tensorflowjs_converter`)
-- `/json`: contains model converted from version 1.0 (of TensorFlow.js and `tensorflowjs_converter`)
+- `/v0`: contains model converted from a version prior to 1.0 (of TensorFlow.js and `tensorflowjs_converter`)
+- `/v1`: contains model converted from version 1.0 (of TensorFlow.js and `tensorflowjs_converter`)
 
 > **Note**: _The Jupyter notebook also contains the code used to convert the model._
 

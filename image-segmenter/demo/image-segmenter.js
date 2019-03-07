@@ -1,10 +1,10 @@
 /* global tf, Image, FileReader, ImageData, fetch */
 
-// tensorflow.js 0.15.1
-const MODELURLPB = '/model/pb/tensorflowjs_model.pb'
-const WEIGHTSURL = '/model/pb/weights_manifest.json'
+// tensorflow.js 0.x.x
+const MODELv0 = '/model/v0/tensorflowjs_model.pb'
+const WEIGHTSURL = '/model/v0/weights_manifest.json'
 // tensorflow.js 1.0.0
-const MODELURLJSON = '/model/json/model.json'
+const MODELv1 = '/model/v1/model.json'
 
 const colorMapUrl = '/assets/color-map.json'
 
@@ -15,7 +15,7 @@ let model
 let imageElement
 let colorMap
 
-let isPreV1 = false
+let isV0 = false
 
 /**
  * load the TensorFlow.js model
@@ -26,12 +26,12 @@ async function loadModel () {
 
   let start = (new Date()).getTime()
 
-  if (isPreV1) {
+  if (isV0) {
     // https://js.tensorflow.org/api/0.15.1/#loadFrozenModel
-    model = await tf.loadFrozenModel(MODELURLPB, WEIGHTSURL)
+    model = await tf.loadFrozenModel(MODELv0, WEIGHTSURL)
   } else {
     // https://js.tensorflow.org/api/1.0.0/#loadGraphModel
-    model = await tf.loadGraphModel(MODELURLJSON)
+    model = await tf.loadGraphModel(MODELv1)
   }
 
   let end = (new Date()).getTime()
@@ -130,7 +130,7 @@ function preprocessInput (imageInput) {
 
   let inputTensor
 
-  if (isPreV1) {
+  if (isV0) {
     inputTensor = tf.fromPixels(imageInput)
   } else {
     inputTensor = tf.browser.fromPixels(imageInput)
@@ -233,7 +233,7 @@ function message (msg, highlight) {
 
 function init () {
   message(`tfjs version: ${tf.version.tfjs}`, true)
-  isPreV1 = tf.version.tfjs.charAt(0) === '0'
+  isV0 = tf.version.tfjs.charAt(0) === '0'
 }
 
 // ready
