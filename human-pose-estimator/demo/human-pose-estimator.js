@@ -1,11 +1,10 @@
 /* global tf, fetch, estimatePoses, Image */
 
-// tensorflow.js 0.15.3
-// const MODELURL = '/model/pb/tensorflowjs_model.pb'
-// const WEIGHTSURL = '/model/pb/weights_manifest.json'
-
+// tensorflow.js 0.15.1
+const MODELURLPB = '/model/pb/tensorflowjs_model.pb'
+const WEIGHTSURL = '/model/pb/weights_manifest.json'
 // tensorflow.js 1.0.0
-const MODELURL = '/model/json/model.json'
+const MODELURLJSON = '/model/json/model.json'
 
 const COCO = '/assets/coco-common.json'
 
@@ -16,6 +15,8 @@ let openPoseModel
 let imageElement
 let cocoUtil
 
+let isPreV1 = false
+
 /**
  * load the TensorFlow.js model
  */
@@ -25,11 +26,13 @@ async function loadModel () {
 
   let start = (new Date()).getTime()
 
-  // https://js.tensorflow.org/api/0.15.3/#loadFrozenModel
-  // openPoseModel = await tf.loadFrozenModel(MODELURL, WEIGHTSURL)
-
-  // https://js.tensorflow.org/api/1.0.0/#loadGraphModel
-  openPoseModel = await tf.loadGraphModel(MODELURL)
+  if (isPreV1) {
+    // https://js.tensorflow.org/api/0.15.1/#loadFrozenModel
+    openPoseModel = await tf.loadFrozenModel(MODELURLPB, WEIGHTSURL)
+  } else {
+    // https://js.tensorflow.org/api/1.0.0/#loadGraphModel
+    openPoseModel = await tf.loadGraphModel(MODELURLJSON)
+  }
 
   let end = (new Date()).getTime()
 
@@ -124,8 +127,13 @@ async function runModel () {
 function preprocessInput (imageInput) {
   console.log('preprocessInput started')
 
-  // create tensor from input element
-  let inputTensor = tf.browser.fromPixels(imageInput)
+  let inputTensor
+
+  if (isPreV1) {
+    inputTensor = tf.fromPixels(imageInput)
+  } else {
+    inputTensor = tf.browser.fromPixels(imageInput)
+  }
 
   // https://js.tensorflow.org/api/latest/#expandDims
   let preprocessed = inputTensor.toFloat().expandDims()
@@ -222,7 +230,6 @@ function message (msg, highlight) {
 async function loadCoco () {
   disableElements()
   try {
-    message(`tfjs version: ${tf.version.tfjs}`, true)
     let response = await fetch(COCO)
     cocoUtil = await response.json()
     enableElements()
@@ -231,9 +238,15 @@ async function loadCoco () {
   }
 }
 
-// init
+function init () {
+  message(`tfjs version: ${tf.version.tfjs}`, true)
+  isPreV1 = tf.version.tfjs.charAt(0) === '0'
+  loadCoco()
+}
+
+// ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', loadCoco)
+  document.addEventListener('DOMContentLoaded', init)
 } else {
-  setTimeout(loadCoco, 500)
+  setTimeout(init, 500)
 }
