@@ -1,7 +1,12 @@
 /* global tf, fetch, estimatePoses, Image */
 
-const MODELURL = '/model/tensorflowjs_model.pb'
-// const WEIGHTSURL = '/model/weights_manifest.json'
+// tensorflow.js 0.15.3
+// const MODELURL = '/model/pb/tensorflowjs_model.pb'
+// const WEIGHTSURL = '/model/pb/weights_manifest.json'
+
+// tensorflow.js 1.0.0
+const MODELURL = '/model/json/model.json'
+
 const COCO = '/assets/coco-common.json'
 
 const imageSize = 432
@@ -20,7 +25,10 @@ async function loadModel () {
 
   let start = (new Date()).getTime()
 
-  // https://js.tensorflow.org/api/latest/#loadGraphModel
+  // https://js.tensorflow.org/api/0.15.3/#loadFrozenModel
+  // openPoseModel = await tf.loadFrozenModel(MODELURL, WEIGHTSURL)
+
+  // https://js.tensorflow.org/api/1.0.0/#loadGraphModel
   openPoseModel = await tf.loadGraphModel(MODELURL)
 
   let end = (new Date()).getTime()
@@ -214,6 +222,7 @@ function message (msg, highlight) {
 async function loadCoco () {
   disableElements()
   try {
+    message(`tfjs version: ${tf.version.tfjs}`, true)
     let response = await fetch(COCO)
     cocoUtil = await response.json()
     enableElements()

@@ -26,4 +26,4 @@ To run the demo:
 
 1. From the browser, access `demo/human-pose-estimator.html` via the Web Server's URL (e.g., http://127.0.0.1:8080/demo/human-pose-estimator.html)
 
-    ![screenshot](human-pose-estimator-screenshot.png)
+    ![screenshot](human-pose-estimator.png)
