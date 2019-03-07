@@ -11,7 +11,7 @@ const COCO = '/assets/coco-common.json'
 const imageSize = 432
 
 let targetSize = { w: imageSize, h: imageSize }
-let openPoseModel
+let model
 let imageElement
 let cocoUtil
 
@@ -28,14 +28,15 @@ async function loadModel () {
 
   if (isPreV1) {
     // https://js.tensorflow.org/api/0.15.1/#loadFrozenModel
-    openPoseModel = await tf.loadFrozenModel(MODELURLPB, WEIGHTSURL)
+    model = await tf.loadFrozenModel(MODELURLPB, WEIGHTSURL)
   } else {
     // https://js.tensorflow.org/api/1.0.0/#loadGraphModel
-    openPoseModel = await tf.loadGraphModel(MODELURLJSON)
+    model = await tf.loadGraphModel(MODELURLJSON)
   }
 
   let end = (new Date()).getTime()
 
+  message(model.modelUrl)
   message(`model loaded in ${(end - start) / 1000} secs`, true)
   enableElements()
 }
@@ -105,7 +106,7 @@ async function runModel () {
     let start = (new Date()).getTime()
 
     // https://js.tensorflow.org/api/latest/#tf.Model.predict
-    const output = openPoseModel.predict(img)
+    const output = model.predict(img)
 
     let end = (new Date()).getTime()
 

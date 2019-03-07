@@ -1,15 +1,21 @@
 /* global tf, Image, FileReader, ImageData, fetch */
 
-const modelUrl = '/model/tensorflowjs_model.pb'
-const weightsUrl = '/model/weights_manifest.json'
+// tensorflow.js 0.15.1
+const MODELURLPB = '/model/pb/tensorflowjs_model.pb'
+const WEIGHTSURL = '/model/pb/weights_manifest.json'
+// tensorflow.js 1.0.0
+const MODELURLJSON = '/model/json/model.json'
+
 const colorMapUrl = '/assets/color-map.json'
 
 const imageSize = 512
 
 let targetSize = { w: imageSize, h: imageSize }
-let theModel
+let model
 let imageElement
 let colorMap
+
+let isPreV1 = false
 
 /**
  * load the TensorFlow.js model
@@ -20,11 +26,17 @@ async function loadModel () {
 
   let start = (new Date()).getTime()
 
-  // https://js.tensorflow.org/api/latest/#loadFrozenModel
-  theModel = await tf.loadFrozenModel(modelUrl, weightsUrl)
+  if (isPreV1) {
+    // https://js.tensorflow.org/api/0.15.1/#loadFrozenModel
+    model = await tf.loadFrozenModel(MODELURLPB, WEIGHTSURL)
+  } else {
+    // https://js.tensorflow.org/api/1.0.0/#loadGraphModel
+    model = await tf.loadGraphModel(MODELURLJSON)
+  }
 
   let end = (new Date()).getTime()
 
+  message(model.modelUrl)
   message(`model loaded in ${(end - start) / 1000} secs`, true)
   enableElements()
 }
@@ -94,7 +106,7 @@ async function runModel () {
     let start = (new Date()).getTime()
 
     // https://js.tensorflow.org/api/latest/#tf.Model.predict
-    const output = theModel.predict(img)
+    const output = model.predict(img)
 
     let end = (new Date()).getTime()
 
@@ -115,8 +127,14 @@ async function runModel () {
  */
 function preprocessInput (imageInput) {
   console.log('preprocessInput started')
-  // create tensor from image pixels
-  let inputTensor = tf.browser.fromPixels(imageInput)
+
+  let inputTensor
+
+  if (isPreV1) {
+    inputTensor = tf.fromPixels(imageInput)
+  } else {
+    inputTensor = tf.browser.fromPixels(imageInput)
+  }
 
   // https://js.tensorflow.org/api/latest/#expandDims
   let preprocessed = inputTensor.expandDims()
@@ -211,4 +229,16 @@ function message (msg, highlight) {
   }
 
   document.getElementById('message').appendChild(node)
+}
+
+function init () {
+  message(`tfjs version: ${tf.version.tfjs}`, true)
+  isPreV1 = tf.version.tfjs.charAt(0) === '0'
+}
+
+// ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init)
+} else {
+  setTimeout(init, 500)
 }
