@@ -1,9 +1,4 @@
 
 .DS_Store
 .vscode
-
-notes.md
-
-image-caption-generator
-object-detector
-debug
+.staging
