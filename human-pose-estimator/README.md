@@ -13,8 +13,6 @@ The [pre-trained model](http://max-assets.s3-api.us-geo.objectstorage.softlayer.
 
 To try out the [MAX Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator/) follow its instructions to deploy it to Docker or Kubernetes.
 
-Alternatively, the MAX Human Pose Estimator model can be run in a Jupyter environment by launching the notebook (`max-human-pose-estimator.ipynb`) provided in this repository.
-
 #### Output
 
 The web friendly model produced by running `tensorflowjs_converter` can be found in the [`/human-pose-estimator/model`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/human-pose-estimator/model) directory.

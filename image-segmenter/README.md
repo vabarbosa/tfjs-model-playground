@@ -9,9 +9,9 @@ This directory contains the steps for and the output of converting the model to 
 
 #### Source
 
-The [pre-trained model](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/image-segmenter/1.0/assets.tar.gz) used is taken from the [MAX Image Segmenter](https://developer.ibm.com/exchanges/models/all/max-image-segmenter/).
+The [pre-trained model](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/image-segmenter/1.0/assets.tar.gz) used is taken from the [Model Asset eXchange](https://ibm.biz/max-models) (MAX).
 
-To try out the MAX Image Segmenter follow its instructions to deploy it to Docker or Kubernetes.
+To try out the [MAX Image Segmenter](https://developer.ibm.com/exchanges/models/all/max-image-segmenter/) follow its instructions to deploy it to Docker or Kubernetes.
 
 #### Output
 
@@ -31,7 +31,7 @@ Optional assets that may be useful when using the TensorFlow.js model
 
 The following steps were taken to convert the MAX Image Segmenter model to the web friendly format:
 
-> _The MAX Image Segmenter model is a frozen graph. Frozen model formats have been deprecated since TensorFlow.js 1.0. To convert it, is recommended to use older versions (i.e., 0.8.x)._
+> _The MAX Image Segmenter model is a frozen graph. Frozen model formats have been deprecated since TensorFlow.js 1.0. To convert frozen models, it recommended to use older versions (i.e., 0.8.x)._
 
 1. Install [`tensorflowjs`](https://pypi.org/project/tensorflowjs/) Python module
     - `pip install tensorflowjs==0.8.5`

@@ -9,9 +9,9 @@ This directory contains the steps for and the output of converting the model to 
 
 #### Source
 
-The [pre-trained model](https://max-assets.s3.us.cloud-object-storage.appdomain.cloud/review-text-generator/1.0/assets.tar.gz) used is taken from the [MAX Review Text Generator](https://developer.ibm.com/exchanges/models/all/max-review-text-generator/).
+The [pre-trained model](https://max-assets.s3.us.cloud-object-storage.appdomain.cloud/review-text-generator/1.0/assets.tar.gz) used is taken from the [Model Asset eXchange](https://ibm.biz/max-models) (MAX).
 
-To try out the MAX Review Text Generator model follow its instructions to deploy it to Docker or Kubernetes.
+To try out the [MAX Review Text Generator](https://developer.ibm.com/exchanges/models/all/max-review-text-generator/) follow its instructions to deploy it to Docker or Kubernetes.
 
 #### Output
 
