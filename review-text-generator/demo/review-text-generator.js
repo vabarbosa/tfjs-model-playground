@@ -1,9 +1,6 @@
 /* global tf, fetch */
 
-// tensorflow.js 0.x.x
-const MODELv0 = '/model/v0/model.json'
-// tensorflow.js 1.0.0
-const MODELv1 = '/model/v1/model.json'
+const modelUrl = '/model/model.json'
 
 const charsArrayUrl = '/assets/chars-array.json'
 
@@ -15,24 +12,17 @@ const numCharsGen = 50
 let model
 let charsArray
 
-let isV0 = false
-
 /**
  * load the TensorFlow.js model
  */
-async function loadModel () {
+window.loadModel = async function () {
   disableElements()
   message('loading model...')
 
   let start = (new Date()).getTime()
 
-  if (isV0) {
-    // https://js.tensorflow.org/api/0.15.1/#loadModel
-    model = await tf.loadModel(MODELv0)
-  } else {
-    // https://js.tensorflow.org/api/1.0.0/#loadLayersModel
-    model = await tf.loadLayersModel(MODELv1)
-  }
+  // https://js.tensorflow.org/api/1.1.2/#loadLayersModel
+  model = await tf.loadLayersModel(modelUrl)
 
   let end = (new Date()).getTime()
 
@@ -43,7 +33,7 @@ async function loadModel () {
 /**
  * run the model and get a prediction
  */
-async function runModel () {
+window.runModel = async function () {
   disableElements()
   message('running inference...')
   message('this may take awhile')
@@ -204,7 +194,6 @@ function message (msg, highlight) {
 
 function init () {
   message(`tfjs version: ${tf.version.tfjs}`, true)
-  isV0 = tf.version.tfjs.charAt(0) === '0'
 }
 
 // ready
