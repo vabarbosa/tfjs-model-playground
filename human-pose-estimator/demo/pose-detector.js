@@ -26,7 +26,7 @@ let cocoPairs = []
 let cocoPairsNetwork = []
 let cocoParts = []
 
-const estimatePoses = function (prediction, cocoUtil) {
+window.estimatePoses = function (prediction, cocoUtil) {
   cocoPairs = cocoUtil.cocoPairs
   cocoPairsNetwork = cocoUtil.cocoPairsNetwork
   cocoParts = cocoUtil.cocoParts
@@ -53,7 +53,7 @@ const computeParts = function (heatmap) {
   let depth = heatmap.shape[2] - 1
   let parts = new Array(depth)
 
-  // extract peak parts from heatmap using non-maximum suppression (NMS) algorithm
+  // extract peak parts from heatmap
   for (var y = 0; y < height; y++) {
     for (var x = 0; x < width; x++) {
       for (var d = 0; d < depth; d++) {
@@ -155,6 +155,7 @@ const getScore = function (x1, y1, x2, y2, pafmap, cpnetwork) {
   let normVec = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))
 
   if (normVec >= 0.0001) {
+    const shape = pafmap.shape
     let vx = dx / normVec
     let vy = dy / normVec
 
@@ -162,12 +163,14 @@ const getScore = function (x1, y1, x2, y2, pafmap, cpnetwork) {
       let tx = Math.round(x1 + (t * dx / 9) + 0.5)
       let ty = Math.round(y1 + (t * dy / 9) + 0.5)
 
-      let s = vy * pafmap.get(ty, tx, cpnetwork[1]) +
-              vx * pafmap.get(ty, tx, cpnetwork[0])
+      if (shape[0] > ty && shape[1] > tx) {
+        let s = vy * pafmap.get(ty, tx, cpnetwork[1]) +
+                vx * pafmap.get(ty, tx, cpnetwork[0])
 
-      if (s > LocalPAFThreshold) {
-        count++
-        score += s
+        if (s > LocalPAFThreshold) {
+          count++
+          score += s
+        }
       }
     }
   }
