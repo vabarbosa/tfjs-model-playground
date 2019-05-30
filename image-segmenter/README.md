@@ -9,48 +9,45 @@ This directory contains the steps for and the output of converting the model to 
 
 #### Source
 
-The [pre-trained model](http://max-assets.s3-api.us-geo.objectstorage.softlayer.net/deeplab/deeplabv3_mnv2_pascal_trainval_2018_01_29.tar.gz) used is taken from the [Model Asset Exchange](https://developer.ibm.com/code/exchanges/models) (MAX).
+The [pre-trained model](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/image-segmenter/1.0/assets.tar.gz) used is taken from the [MAX Image Segmenter](https://developer.ibm.com/exchanges/models/all/max-image-segmenter/).
 
-To try out the [MAX Image Segmenter](https://github.com/IBM/MAX-Image-Segmenter) follow its instructions to deploy it to Docker or Kubernetes.
-
-Alternatively, the MAX Image Segmenter model can be run in a Jupyter environment by launching the notebook (`max-image-segmenter.ipynb`) provided in this repository.
+To try out the MAX Image Segmenter follow its instructions to deploy it to Docker or Kubernetes.
 
 #### Output
 
 The web friendly model produced by running `tensorflowjs_converter` can be found in the [`/image-segmenter/model`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/image-segmenter/model) directory.
 
-- `/v0`: contains model converted from a version prior to 1.0 (of TensorFlow.js and `tensorflowjs_converter`)
-- `/v1`: contains model converted from version 1.0 (of TensorFlow.js and `tensorflowjs_converter`)
-
-> **Note**: _The Jupyter notebook also contains the code used to convert the model._
-
-To run the converted model in a browser follow the instructions in the [`/image-segmenter/demo`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/image-segmenter/demo) directory.
+To see how to run the converted model in a browser follow the instructions in the [`/image-segmenter/demo`](https://github.com/vabarbosa/tfjs-model-playground/tree/master/image-segmenter/demo) directory.
 
 
 ## Assets
 
 Optional assets that may be useful when using the TensorFlow.js model
 
-- `color-map.json` - [colormap](https://github.com/IBM/MAX-Image-Segmenter/blob/master/core/utils.py#L7) for visualizing segmentation results
+- [`color-map.json`](https://github.com/vabarbosa/tfjs-model-playground/blob/master/image-segmenter/assets/color-map.json) - colormap for visualizing segmentation results
 
 
 ## DIY
 
 The following steps were taken to convert the MAX Image Segmenter model to the web friendly format:
 
+> _The MAX Image Segmenter model is a frozen graph. Frozen model formats have been deprecated since TensorFlow.js 1.0. To convert it, is recommended to use older versions (i.e., 0.8.x)._
+
 1. Install [`tensorflowjs`](https://pypi.org/project/tensorflowjs/) Python module
-1. Download and extract the [pre-trained model](http://max-assets.s3-api.us-geo.objectstorage.softlayer.net/deeplab/deeplabv3_mnv2_pascal_trainval_2018_01_29.tar.gz)  
+    - `pip install tensorflowjs==0.8.5`
+1. Download and extract the [pre-trained model](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/image-segmenter/1.0/assets.tar.gz)  
 1. From a terminal, run the following command:  
 
 ```
 tensorflowjs_converter \
     --input_format=tf_frozen_model \
     --output_node_names='SemanticPredictions' \
+    --output_json=true
     {frozen_graph_path} \
     {web_asset_dir}
 ```
 
 where  
 
-- **{frozen\_graph\_path}** is the path to the extracted frozen model
+- **{frozen\_graph\_path}** is the path to the extracted frozen model file (i.e., `deeplabv3_mnv2_pascal_trainval/frozen_inference_graph.pb`)
 - **{web\_asset\_dir}** is the directory to save the converted model files

@@ -1,10 +1,6 @@
 /* global tf, Image, FileReader, ImageData, fetch */
 
-// tensorflow.js 0.x.x
-const MODELv0 = '/model/v0/tensorflowjs_model.pb'
-const WEIGHTSURL = '/model/v0/weights_manifest.json'
-// tensorflow.js 1.0.0
-const MODELv1 = '/model/v1/model.json'
+const modelUrl = '/model/model.json'
 
 const colorMapUrl = '/assets/color-map.json'
 
@@ -15,24 +11,17 @@ let model
 let imageElement
 let colorMap
 
-let isV0 = false
-
 /**
  * load the TensorFlow.js model
  */
-async function loadModel () {
+window.loadModel = async function () {
   disableElements()
   message('loading model...')
 
   let start = (new Date()).getTime()
 
-  if (isV0) {
-    // https://js.tensorflow.org/api/0.15.1/#loadFrozenModel
-    model = await tf.loadFrozenModel(MODELv0, WEIGHTSURL)
-  } else {
-    // https://js.tensorflow.org/api/1.0.0/#loadGraphModel
-    model = await tf.loadGraphModel(MODELv1)
-  }
+  // https://js.tensorflow.org/api/1.1.2/#loadGraphModel
+  model = await tf.loadGraphModel(modelUrl)
 
   let end = (new Date()).getTime()
 
@@ -46,7 +35,7 @@ async function loadModel () {
  *
  * @param {DOM Node} input - the image file upload element
  */
-function loadImage (input) {
+window.loadImage = function (input) {
   if (input.files && input.files[0]) {
     disableElements()
     message('resizing image...')
@@ -95,7 +84,7 @@ function loadImage (input) {
 /**
  * run the model and get a prediction
  */
-async function runModel () {
+window.runModel = async function () {
   if (imageElement) {
     disableElements()
     message('running inference...')
@@ -128,13 +117,7 @@ async function runModel () {
 function preprocessInput (imageInput) {
   console.log('preprocessInput started')
 
-  let inputTensor
-
-  if (isV0) {
-    inputTensor = tf.fromPixels(imageInput)
-  } else {
-    inputTensor = tf.browser.fromPixels(imageInput)
-  }
+  let inputTensor = tf.browser.fromPixels(imageInput)
 
   // https://js.tensorflow.org/api/latest/#expandDims
   let preprocessed = inputTensor.expandDims()
@@ -233,7 +216,6 @@ function message (msg, highlight) {
 
 function init () {
   message(`tfjs version: ${tf.version.tfjs}`, true)
-  isV0 = tf.version.tfjs.charAt(0) === '0'
 }
 
 // ready
