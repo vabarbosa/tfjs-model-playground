@@ -2,7 +2,7 @@
 
 The Human Pose Estimator is trained to detect humans and their poses in a given image.
 
-This directory contains the steps for and the output of converting the model to a web friendly format supported by TensorFlow.js
+This directory contains the steps for and the output of converting the model to a web friendly format supported by TensorFlow.js.
 
 
 ## Model

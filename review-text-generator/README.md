@@ -2,7 +2,7 @@
 
 The Review Text Generator is trained to generate English-language text similar to the text in the Yelp review data set.
 
-This directory contains the steps for and the output of converting the model to a web friendly format supported by TensorFlow.js
+This directory contains the steps for and the output of converting the model to a web friendly format supported by TensorFlow.js.
 
 
 ## Model

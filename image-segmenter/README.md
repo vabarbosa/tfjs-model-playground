@@ -2,7 +2,7 @@
 
 The Image Segmenter is trained to identify objects in an image.
 
-This directory contains the steps for and the output of converting the model to a web friendly format supported by TensorFlow.js
+This directory contains the steps for and the output of converting the model to a web friendly format supported by TensorFlow.js.
 
 
 ## Model
