@@ -1,6 +1,5 @@
 ## Review Text Generator Demo
 
-
 To run the demo:
 
 1. Clone this repository
