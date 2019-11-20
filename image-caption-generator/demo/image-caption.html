@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>image-caption</title>
+  </head>
+  <body>
+    <div style="margin: 20px;">
+      <h1>image-caption</h1>
+      <div style="padding: 10px;">
+        <button id="modelload" onclick="loadModel();">load model</button>
+        <input id="modelimage" type="file" name="filename" accept="image/gif, image/jpeg, image/png" onchange="loadImage(this);" disabled>
+        <button id="modelrun" onclick="runModel();" disabled>run model</button>
+      </div>
+      
+      <div style="padding: 10px;">
+        <div id="capimg" style="position:relative;display:inline-block;min-width:600px;vertical-align:top;text-align:center;">
+          <canvas id="canvasimage"></canvas>
+          <div id="caption" style="font-weight:bold;margin-top:15px;font-size:larger;"></div>
+        </div>
+        <div id="message" style="position:relative;display:inline-block;"></div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="vocabulary.js"></script>
+    <script src="caption-generator.js"></script>
+    <script src="image-caption.js"></script>
+  </body>
+</html>
