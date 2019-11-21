@@ -9,7 +9,7 @@ This directory contains the steps for and the output of converting the model to 
 
 #### Source
 
-The [pre-trained model](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/image-caption-generator/1.0/assets.tar.gz) used is taken from the [Model Asset eXchange](https://ibm.biz/max-models) (MAX).
+The [pre-trained model](https://s3.us-south.cloud-object-storage.appdomain.cloud/max-assets-prod/max-image-caption-generator/1.0.0/assets.tar.gz) used is taken from the [Model Asset eXchange](https://ibm.biz/max-models) (MAX).
 
 To try out the [MAX Image Caption Generator](https://developer.ibm.com/exchanges/models/all/max-image-caption-generator/) follow its instructions to deploy it to Docker or Kubernetes.
 
@@ -35,14 +35,15 @@ The following steps were taken to convert the MAX Image Caption Generator model 
 
 1. Install [`tensorflowjs`](https://pypi.org/project/tensorflowjs/) Python module
     - `pip install tensorflowjs==0.8.6`
-1. Download and extract the [pre-trained model](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/image-caption-generator/1.0/assets.tar.gz)  
+1. Download and extract the [pre-trained model](https://s3.us-south.cloud-object-storage.appdomain.cloud/max-assets-prod/max-image-caption-generator/1.0.0/assets.tar.gz)  
 1. From a terminal, run the following command:  
 
 ```
 tensorflowjs_converter \
     --input_format=tf_frozen_model \
     --output_node_names='softmax,lstm/initial_state,lstm/state' \
-    --output_json=true
+    --output_json=true \
+    --quantization_bytes=2 \
     {frozen_graph_path} \
     {web_asset_dir}
 ```

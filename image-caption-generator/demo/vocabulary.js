@@ -6,7 +6,7 @@ const UNK_WORD = '<UNK>'
 
 const VOCAB_FILE = '/assets/word-counts.txt'
 
-let vocabList = []
+window.vocabList = []
 const options = {}
 
 async function readFile () {
